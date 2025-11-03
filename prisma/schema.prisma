@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model BrandKit {
+  id             String   @id
+  name           String
+  primaryColor   String
+  secondaryColor String
+  headingFont    String
+  bodyFont       String
+  toneVoice      String
+  toneKeywords   String
+  logoUrl        String
+  updatedAt      DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  decks          Deck[]
+}
+
+model Deck {
+  id          String      @id
+  title       String
+  owner       String
+  status      String      @default("in_conversation")
+  dueAt       DateTime
+  objective   String
+  audience    String
+  tone        String
+  brandKitId  String?
+  brandKit    BrandKit?   @relation(fields: [brandKitId], references: [id])
+  sections    DeckSection[]
+  messages    ConversationMessage[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([brandKitId])
+}
+
+model DeckSection {
+  id         String   @id @default(cuid())
+  deckId     String
+  deck       Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  title      String
+  status     String
+  slideCount Int
+  order      Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([deckId])
+}
+
+model ConversationMessage {
+  id        String  @id
+  deckId    String
+  deck      Deck    @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  role      String
+  strategy  String?
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([deckId])
+  @@index([createdAt])
+}

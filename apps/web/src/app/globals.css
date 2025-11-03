@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0b1220;
+  --foreground: #e3ecff;
+  --muted: rgba(226, 232, 240, 0.08);
+  --accent: #4c6ef5;
+  --accent-foreground: #f8fafc;
+  --border: rgba(148, 163, 184, 0.2);
+}
+
+body {
+  @apply bg-[color:var(--background)] text-[color:var(--foreground)] font-[var(--font-geist-sans)] antialiased;
+}
+
+a {
+  @apply text-[color:var(--accent)] hover:text-[color:var(--accent-foreground)];
+}
+
+@layer base {
+  h1 {
+    @apply text-4xl font-semibold tracking-tight;
+  }
+  h2 {
+    @apply text-2xl font-semibold tracking-tight;
+  }
+  h3 {
+    @apply text-xl font-semibold;
+  }
+  p {
+    @apply text-base text-slate-300;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply rounded-3xl border border-[color:var(--border)] bg-white/5 shadow-2xl backdrop-blur-xl;
+  }
+  .grid-background {
+    background-image: radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.12) 1px, transparent 0);
+    background-size: 40px 40px;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hidden {
+    scrollbar-width: none;
+  }
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+}
